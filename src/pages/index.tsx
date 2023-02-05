@@ -6,10 +6,10 @@ import axios from "axios";
 import { useRouter } from "next/router";
 
 const Home: NextPage = () => {
-  const { query } = useRouter();
+  const { query, push } = useRouter();
   const [code, setCode] = useState("");
   const [lang, setLang] = useState("javascript");
-  
+
   const upload = () => {
     axios({
       url: "/api/create",
@@ -31,10 +31,12 @@ const Home: NextPage = () => {
     }).then((res) => {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       setCode(res.data.content as string);
+      void push("");
     }).catch(() => { console.log("err") });
   };
 
   useEffect(() => {
+    if (query["dis"] == "true") return;
     if (query["clone"]) clone();
   }, [clone, query]);
 
