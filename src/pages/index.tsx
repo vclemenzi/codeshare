@@ -9,7 +9,7 @@ const Home: NextPage = () => {
   const { query } = useRouter();
   const [code, setCode] = useState("");
   const [lang, setLang] = useState("javascript");
-
+  
   const upload = () => {
     axios({
       url: "/api/create",

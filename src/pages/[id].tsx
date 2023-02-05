@@ -4,12 +4,15 @@ import Editor from "@monaco-editor/react";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 
 const Home: NextPage = () => {
   const { query } = useRouter();
   const [code, setCode] = useState("");
   const [loading, setLoading] = useState(true);
   const [lang, setLang] = useState("javascript");
+  const MySwal = withReactContent(Swal);
 
   useEffect(() => {
     axios
@@ -130,7 +133,11 @@ const Home: NextPage = () => {
               className="mr-3 cursor-pointer text-gray-700 hover:text-gray-900"
               onClick={() => {
                 void navigator.clipboard.writeText(code);
-                alert("Copied!");
+                void MySwal.fire({
+                    title: <p>Copied Successfully!</p>,
+                    showConfirmButton: false,
+                    icon: "success"
+                  })
               }}
             >
               <svg
