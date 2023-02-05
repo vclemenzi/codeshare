@@ -1,10 +1,12 @@
 import { type NextPage } from "next";
 import Head from "next/head";
 import Editor from "@monaco-editor/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
+import { useRouter } from "next/router";
 
 const Home: NextPage = () => {
+  const { query } = useRouter();
   const [code, setCode] = useState("");
   const [lang, setLang] = useState("javascript");
 
@@ -20,6 +22,21 @@ const Home: NextPage = () => {
       window.location.href = `/${res.data.id as string}`
     }).catch(() => { console.log("err") });
   };
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const clone = () => {
+    axios({
+      url: `/api/${query["clone"] as string}`,
+      method: "get",
+    }).then((res) => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      setCode(res.data.content as string);
+    }).catch(() => { console.log("err") });
+  };
+
+  useEffect(() => {
+    if (query["clone"]) clone();
+  }, [clone, query]);
 
   return (
     <>

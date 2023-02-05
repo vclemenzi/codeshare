@@ -97,13 +97,65 @@ const Home: NextPage = () => {
               </option>
             </select>
           </div>
+
+          <div className="flex">
+            <a
+              className="mr-3 cursor-pointer text-gray-700 hover:text-gray-900"
+              onClick={() => {
+                window.location.href = `/?clone=${query["id"] as string}`
+              }}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="icon icon-tabler icon-tabler-device-floppy h-7 w-7 hover:scale-105"
+                width="44"
+                height="44"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="#000000"
+                fill="none"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path d="M9 7h-3a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-3" />
+                <path d="M9 15h3l8.5 -8.5a1.5 1.5 0 0 0 -3 -3l-8.5 8.5v3" />
+                <line x1="16" y1="5" x2="19" y2="8" />
+              </svg>
+            </a>
+
+            <a
+              className="mr-3 cursor-pointer text-gray-700 hover:text-gray-900"
+              onClick={() => {
+                void navigator.clipboard.writeText(code);
+                alert("Copied!");
+              }}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="icon icon-tabler icon-tabler-device-floppy h-7 w-7 hover:scale-105"
+                width="44"
+                height="44"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="#000000"
+                fill="none"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <rect x="8" y="8" width="12" height="12" rx="2" />
+                <path d="M16 8v-2a2 2 0 0 0 -2 -2h-8a2 2 0 0 0 -2 2v8a2 2 0 0 0 2 2h2" />
+              </svg>
+            </a>
+          </div>
         </nav>
         <Editor
           height="90vh"
           className="h-screen w-screen "
           language={lang}
           defaultValue={code}
-          options={{readOnly: true}}
+          options={{ readOnly: true }}
         />
       </main>
     </>
