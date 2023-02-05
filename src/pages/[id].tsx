@@ -8,6 +8,7 @@ import axios from "axios";
 const Home: NextPage = () => {
   const { query } = useRouter();
   const [code, setCode] = useState("");
+  const [loading, setLoading] = useState(true);
   const [lang, setLang] = useState("javascript");
 
   useEffect(() => {
@@ -16,6 +17,7 @@ const Home: NextPage = () => {
       .then((res) => {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         setCode(res.data?.content as string);
+        setLoading(false);
       })
       .catch(() => console.log("err"));
   }, [query]);
@@ -102,7 +104,7 @@ const Home: NextPage = () => {
             <a
               className="mr-3 cursor-pointer text-gray-700 hover:text-gray-900"
               onClick={() => {
-                window.location.href = `/?clone=${query["id"] as string}`
+                window.location.href = `/?clone=${query["id"] as string}`;
               }}
             >
               <svg
@@ -150,13 +152,19 @@ const Home: NextPage = () => {
             </a>
           </div>
         </nav>
-        <Editor
-          height="90vh"
-          className="h-screen w-screen "
-          language={lang}
-          defaultValue={code}
-          options={{ readOnly: true }}
-        />
+        {loading ? (
+          <div className="flex min-h-screen flex-row items-center justify-center">
+            Loading...
+          </div>
+        ) : (
+          <Editor
+            height="90vh"
+            className="mt-3 h-screen w-screen"
+            language={lang}
+            value={code}
+            options={{ readOnly: true }}
+          />
+        )}
       </main>
     </>
   );

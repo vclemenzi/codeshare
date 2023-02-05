@@ -140,9 +140,9 @@ const Home: NextPage = () => {
         </nav>
         <Editor
           height="90vh"
-          className="h-screen w-screen"
+          className="h-screen w-screen mt-3"
           language={lang}
-          defaultValue={code}
+          value={code}
           onChange={(e) => setCode(e || "")}
         />
       </main>
