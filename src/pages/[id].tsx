@@ -1,11 +1,24 @@
 import { type NextPage } from "next";
 import Head from "next/head";
 import Editor from "@monaco-editor/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import axios from "axios";
 
 const Home: NextPage = () => {
+  const { query } = useRouter();
   const [code, setCode] = useState("");
   const [lang, setLang] = useState("javascript");
+
+  useEffect(() => {
+    axios
+      .get(`/api/${query["id"] as string}`)
+      .then((res) => {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        setCode(res.data?.content as string);
+      })
+      .catch(() => console.log("err"));
+  }, [query]);
 
   return (
     <>
@@ -84,35 +97,12 @@ const Home: NextPage = () => {
               </option>
             </select>
           </div>
-
-          <div className="flex">
-            <a className="mr-3 cursor-pointer text-gray-700 hover:text-gray-900">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="icon icon-tabler icon-tabler-device-floppy h-7 w-7 hover:scale-105"
-                width="44"
-                height="44"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="#000000"
-                fill="none"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                <path d="M6 4h10l4 4v10a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2" />
-                <circle cx="12" cy="14" r="2" />
-                <polyline points="14 4 14 8 8 8 8 4" />
-              </svg>
-            </a>
-          </div>
         </nav>
         <Editor
           height="90vh"
           className="h-screen w-screen"
           language={lang}
           defaultValue={code}
-          onChange={(e) => setCode(e || "")}
         />
       </main>
     </>
