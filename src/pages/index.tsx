@@ -2,10 +2,24 @@ import { type NextPage } from "next";
 import Head from "next/head";
 import Editor from "@monaco-editor/react";
 import { useState } from "react";
+import axios from "axios";
 
 const Home: NextPage = () => {
   const [code, setCode] = useState("");
   const [lang, setLang] = useState("javascript");
+
+  const upload = () => {
+    axios({
+      url: "/api/create",
+      method: "post",
+      data: {
+        content: code
+      }
+    }).then((res) => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      window.location.href = `/${res.data.id as string}`
+    }).catch(() => { console.log("err") });
+  };
 
   return (
     <>
@@ -86,7 +100,7 @@ const Home: NextPage = () => {
           </div>
 
           <div className="flex">
-            <a className="mr-3 cursor-pointer text-gray-700 hover:text-gray-900">
+            <a className="mr-3 cursor-pointer text-gray-700 hover:text-gray-900" onClick={() => upload()}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="icon icon-tabler icon-tabler-device-floppy h-7 w-7 hover:scale-105"
