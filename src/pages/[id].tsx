@@ -100,9 +100,10 @@ const Home: NextPage = () => {
         </nav>
         <Editor
           height="90vh"
-          className="h-screen w-screen"
+          className="h-screen w-screen "
           language={lang}
           defaultValue={code}
+          options={{readOnly: true}}
         />
       </main>
     </>
