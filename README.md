@@ -17,18 +17,10 @@ Second, install the required modules with `yarn`
 yarn
 ```
 
-Third, create a MongoDB database following the following information
-
-- db_name: codeshare
-- db_collection: documents
-
-Now, create the .env file and insert the following string.
-```
-MONGO_URI=<db_conn_url>/codeshare?retryWrites=true&w=majority
-```
-
-Have fun!
-
+Third, create a new Vercel KV Database, and copy the .env.local file content given by Vercel to a new .env.local file in the root of the project
 ```bash
-yarn dev
+KV_URL="redis://*********@premium-quagga-33772.kv.vercel-storage.com:33772"
+KV_REST_API_URL="https://premium-quagga-33772.kv.vercel-storage.com"
+KV_REST_API_TOKEN="*********"
+KV_REST_API_READ_ONLY_TOKEN="*********"
 ```
