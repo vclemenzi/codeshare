@@ -1,10 +1,26 @@
 "use client";
 import { HiOutlineSave } from "react-icons/hi";
 import Editor from "@monaco-editor/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 
 export default function Home() {
   const [content, setContent] = useState("");
+
+  useEffect(() => {
+    const options = new URLSearchParams(window.location.search);
+
+    if (options.has("clone")) {
+      fetch(`/api/${options.get("clone")}`)
+          .then(async (res) => {
+            if (res.status === 200) {
+              setContent((await res.json()).content);
+            } else {
+              window.location.href = "/?error=not-found";
+            }
+          });
+    }
+  }, []);
 
   const handleSave = () => {
     fetch("/api/create", {

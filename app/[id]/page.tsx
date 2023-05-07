@@ -17,7 +17,11 @@ export default function Id(
                 window.location.href = "/?error=not-found";
             }
         })
-  }, []);
+  }, [params.id]);
+
+  const handleClone = () => {
+    window.location.href = `/?clone=${params.id}`;
+  };
 
   return (
     <main>
@@ -28,6 +32,7 @@ export default function Id(
         <div>
           <button
             className="flex items-center px-3 py-2 text-sm font-medium leading-4 transition-colors duration-150 border border-transparent rounded-md text-slate-900 bg-slate-300 hover:bg-slate-200 focus:outline-none focus:shadow-outline-blue active:bg-slate-200"
+            onClick={handleClone}
           >
             <MdModeEdit className="mr-2 w-5 h-5" />
             Clone
