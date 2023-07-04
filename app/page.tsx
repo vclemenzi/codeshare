@@ -2,7 +2,8 @@
 import { HiOutlineSave } from "react-icons/hi";
 import Editor from "@monaco-editor/react";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
+import swal from '@sweetalert/with-react';
+import { NotFound } from "@/componets/alerts/NotFound";
 
 export default function Home() {
   const [content, setContent] = useState("");
@@ -12,13 +13,19 @@ export default function Home() {
 
     if (options.has("clone")) {
       fetch(`/api/${options.get("clone")}`)
-          .then(async (res) => {
-            if (res.status === 200) {
-              setContent((await res.json()).content);
-            } else {
-              window.location.href = "/?error=not-found";
-            }
-          });
+        .then(async (res) => {
+          if (res.status === 200) {
+            setContent((await res.json()).content);
+          } else {
+            window.location.href = "/?error=not-found";
+          }
+        });
+    } else if (options.get("error") == "not-found") {
+      swal({
+        icon: "error",
+        buttons: {},
+        content: (<NotFound />)
+      });
     }
   }, []);
 
@@ -41,7 +48,7 @@ export default function Home() {
         </div>
         <div>
           <button
-            className="flex items-center px-3 py-2 text-sm font-medium leading-4 transition-colors duration-150 border border-transparent rounded-md text-slate-900 bg-slate-300 hover:bg-slate-200 focus:outline-none focus:shadow-outline-blue active:bg-slate-200"
+            className="flex items-center px-3 py-2 text-sm font-medium leading-4 transition-colors duration-150 border-transparent rounded-md text-slate-900 bg-slate-300 border-2 hover:bg-slate-200 hover:border-slate-300"
             onClick={handleSave}
           >
             <HiOutlineSave className="mr-2 w-5 h-5" />
