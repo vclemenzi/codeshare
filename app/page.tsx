@@ -2,8 +2,6 @@
 import { HiOutlineSave } from "react-icons/hi";
 import Editor from "@monaco-editor/react";
 import { useEffect, useState } from "react";
-import swal from '@sweetalert/with-react';
-import { NotFound } from "@/componets/alerts/NotFound";
 
 export default function Home() {
   const [content, setContent] = useState("");
@@ -20,12 +18,6 @@ export default function Home() {
             window.location.href = "/?error=not-found";
           }
         });
-    } else if (options.get("error") == "not-found") {
-      swal({
-        icon: "error",
-        buttons: {},
-        content: (<NotFound />)
-      });
     }
   }, []);
 
@@ -60,7 +52,7 @@ export default function Home() {
       <div className="flex flex-col h-screen">
         <Editor
           height="95vh"
-          defaultLanguage="text"
+          defaultLanguage={"text"}
           className="mt-2"
           value={content}
           onChange={(value) => setContent(value as string)}
